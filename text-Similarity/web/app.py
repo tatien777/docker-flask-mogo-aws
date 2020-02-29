@@ -4,7 +4,6 @@ from pymongo import MongoClient
 import bcrypt
 import spacy
 
-
 app = Flask(__name__)
 api = Api(app)
 
@@ -39,7 +38,7 @@ class Register(Resource):
         users.insert({
             'Username': username,
             "Password": hashed_pw,
-            "Tokens": 6
+            "Tokens": 20
         })
 
         retJson = {
@@ -104,18 +103,18 @@ class Detect(Resource):
             }
             return jsonify(retJson)
         # Calculate the edit distance
-        # nlp = spacy.load('en_core_web_sm')
+        nlp = spacy.load('en_core_web_sm')
 
-        # text1 = nlp(text1)
-        # text2 = nlp(text2)
+        text1 = nlp(text1)
+        text2 = nlp(text2)
 
-        # # Ratio is a number bw 0 and 1 the closer to 1, the more similar text 1
-        # # and text2 are
-        # ratio = text1.similarity(text2)
+        # Ratio is a number bw 0 and 1 the closer to 1, the more similar text 1
+        # and text2 are
+        ratio = text1.similarity(text2)
 
         retJson = {
             "status": 200,
-            # "similarity": ratio,
+            "similarity": ratio,
             "msg": "Similarity score calculated successfully"
         }
 
